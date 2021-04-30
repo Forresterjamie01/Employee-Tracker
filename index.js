@@ -59,8 +59,8 @@ function prompt() {
             addEmployees();
             break;  
 
-        case 'Update View Roles':
-            updateViewRoles();
+        case 'Update Employee Roles':
+            updateEmployeeRoles();
             break;
         case 'Exit':
             connection.end();
@@ -96,13 +96,28 @@ function viewRoles() {
 //View Employees function if user selects to view employees
 function viewEmployees() {
     console.log ('Current Employees')
-    const query = `SELECT * FROM EMPLOPYEES`;
+    const query = `SELECT * FROM employee`;
     
-    connection.query(employeeQuery, (err,data) => {
+    connection.query(query, (err,data) => {
         if (err) throw err;
         console.table(data);
-        init();
     })
+    prompt();
+
 }
 
+//Add Employees function so the user can add an employee to the database
+function addEmployees() {
+    console.log ('Add A New Employee')
+    const query = `SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, ROLE_ID, MANAGER_ID `;
+    
+    connection.query(query, (err,data) => {
+        if (err) throw err;
+
+        
+        console.table(data);
+    })
+    prompt();
+
+}
 
