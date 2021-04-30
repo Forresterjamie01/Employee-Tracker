@@ -4,7 +4,7 @@ require ('console.table');
 
 //Create connection
 
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
 
     host: 'localhost',
     port: '3306',
@@ -15,7 +15,7 @@ const db = mysql.createConnection({
 
 //connect to mysql//
 
-db.connect((err) => {
+connection.connect((err) => {
     if(err) {
         throw err; 
     } prompt();
@@ -62,12 +62,47 @@ function prompt() {
         case 'Update View Roles':
             updateViewRoles();
             break;
+        case 'Exit':
+            connection.end();
+            break;
 }
 });
 }
-//View Deparments function if user selects to view departments
+//View Departments function if user selects to view departments
 function viewDepartments() {
-    console.log ("Current Departments")
-    const query = 
-    `SELECT department.id, department.name As 
+    console.log ('Current Departments')
+    const query = `SELECT * FROM department`;
+
+    connection.query(query, (err,data) => {
+        if (err) throw err;
+        console.table(data);
+    })
+    prompt();
+    }
+
+//View Roles function if user selects to view roles
+function viewRoles() {
+    console.log ('Current Roles')
+    const query = `SELECT * FROM ROLE`;
+
+    connection.query(query, (err,data) => {
+        if (err) throw err;
+        console.table(data);
+    })
+    prompt();
+
 }
+
+//View Employees function if user selects to view employees
+function viewEmployees() {
+    console.log ('Current Employees')
+    const query = `SELECT * FROM EMPLOPYEES`;
+    
+    connection.query(employeeQuery, (err,data) => {
+        if (err) throw err;
+        console.table(data);
+        init();
+    })
+}
+
+
