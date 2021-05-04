@@ -6,11 +6,9 @@ Created an Employee Tracker for non-developers to view and interact with informa
 This application as a Content Management System for non-developers. Here I created a solution for managing a company's employees using node, inquirer, and MySQL. This README uses node js and inquirer to produce the README within the terminal.
 
 ### Command-Line Application includes:
-* Add departments, roles, employees
-
-
 * View departments, roles, employees
 
+* Add departments, roles, employees
 
 * Update employee roles
 

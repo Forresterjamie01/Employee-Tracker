@@ -108,16 +108,60 @@ function viewEmployees() {
 
 //Add Employees function so the user can add an employee to the database
 function addEmployees() {
-    console.log ('Add A New Employee')
-    const query = `SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, ROLE_ID, MANAGER_ID `;
+let roles = connection.viewRoles();
+    const role = roles.map(({ROLE_ID, TITLE } ) => ({name: TITLE, value: ROLE_ID}))  
     
-    connection.query(query, (err,data) => {
-        if (err) throw err;
+    inquirer
+    .prompt([
+      {
+        name: 'employee',
+        type: 'input',
+        message: 'Who is the employee you would like to submit?',
+      },
+      {
+        name: 'department',
+        type: 'input',
+        message: 'What department would you like to place your employee in?',
+      },
+      {
+        name: 'role',
+        type: 'input',
+        message: 'What would you like their role to be?',
+        choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Accountant', 'Legal Team Lead', 'Lawyer'],
+      },
 
-        
-        console.table(data);
-    })
-    prompt();
+      {
+        name: 'manager',
+        type: 'input',
+        message: 'Who is employees manager?',
+        choices: ['JoAnn Peters', 'John Evans', 'Ashley Johnson', 'Mark Stevens']
+     
+      },
 
-}
+    ])
+    .then((answer) => {
+      // when finished prompting, insert a new employee into the db with that info
+      connection.query(
+        'INSERT INTO employee SET ?',
+        // QUESTION: What does the || 0 do?
+        {
+          FIRST_NAME: answer.employee,
+          LAST_NAME: answer.department,
+          ROLE_ID: answer.role, 
+          manager_id: answer.manager,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log('Your employee was created successfully!');
+          // re-prompt the user for if they want to create another employee
+          start();
+        }
+      );
+    });
+};
+
+
+
+
+
 
